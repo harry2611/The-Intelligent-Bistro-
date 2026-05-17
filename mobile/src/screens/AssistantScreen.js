@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { AssistantPanel } from "../components/AssistantPanel";
 import { colors, fonts } from "../theme";
@@ -30,9 +31,17 @@ export function AssistantScreen({
   onViewModeChange,
   viewMode
 }) {
+  const pageScrollRef = useRef(null);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      pageScrollRef.current?.scrollToEnd({ animated: true });
+    });
+  }, [messages.length]);
+
   return (
     <KeyboardAvoidingView style={styles.wrap} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView ref={pageScrollRef} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.hero}>
           <Text style={styles.eyebrow}>AI Concierge</Text>
           <Text style={styles.title}>Ask for the order you actually mean.</Text>

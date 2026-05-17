@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useEffect, useRef } from "react";
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { colors, fonts, shadow } from "../theme";
 
@@ -17,6 +18,14 @@ export function AssistantPanel({
   onViewModeChange,
   viewMode
 }) {
+  const messagesScrollRef = useRef(null);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      messagesScrollRef.current?.scrollToEnd({ animated: true });
+    });
+  }, [messages.length, viewMode]);
+
   return (
     <View style={styles.panel}>
       <View style={styles.header}>
@@ -44,7 +53,12 @@ export function AssistantPanel({
         })}
       </View>
 
-      <ScrollView style={styles.messages} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        ref={messagesScrollRef}
+        onContentSizeChange={() => messagesScrollRef.current?.scrollToEnd({ animated: true })}
+        style={styles.messages}
+        showsVerticalScrollIndicator={false}
+      >
         {messages.map((message) => (
           <MessageBubble key={message.id} message={message} viewMode={viewMode} />
         ))}
