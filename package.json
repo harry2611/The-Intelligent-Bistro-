@@ -1,0 +1,25 @@
+{
+  "name": "viridien-order-assistant",
+  "private": true,
+  "version": "1.0.0",
+  "description": "The Intelligent Bistro Expo mobile restaurant ordering app with a Node.js conversational cart API.",
+  "workspaces": [
+    "mobile",
+    "server"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace server",
+    "dev:server": "npm run dev --workspace server",
+    "dev:mobile": "npm run start --workspace mobile",
+    "export:android": "npm run export:android --workspace mobile",
+    "test": "npm run test --workspace server"
+  },
+  "overrides": {
+    "@xmldom/xmldom": "0.9.10",
+    "@react-native/virtualized-lists": "0.81.5",
+    "postcss": "8.5.14",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
+    "tar": "7.5.15"
+  }
+}
